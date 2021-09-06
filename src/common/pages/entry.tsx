@@ -597,7 +597,7 @@ class EntryPage extends BaseComponent<Props, State> {
                                                         })}
                                                     </div>
                                                 </div>
-                                                <div itemProp="articleBody" className="entry-body markdown-view user-selectable" dangerouslySetInnerHTML={renderedBody}/>
+                                                <div itemProp="articleBody" className="entry-body markdown-view user-selectable" dangerouslySetInnerHTML={renderedBody} onMouseUp={(e)=>{debugger}}/>
                                             </>;
                                         }
 
@@ -724,7 +724,14 @@ class EntryPage extends BaseComponent<Props, State> {
                                             </div>
                                             <meta itemProp="headline name" content={entry.title}/>
                                             {!edit ? 
-                                                <div itemProp="articleBody" className="entry-body markdown-view user-selectable" dangerouslySetInnerHTML={renderedBody}/> :
+                                                <div itemProp="articleBody" className="entry-body markdown-view user-selectable" dangerouslySetInnerHTML={renderedBody} onMouseUp={(e)=>{
+                                                    let sel = document.getSelection();
+                                                    sel = sel!.toString()
+                                                    if(sel) {
+                                                        debugger
+
+                                                      }
+                                                }}/> :
                                                 Comment({
                                                     ...this.props,
                                                     defText: entry.body,
