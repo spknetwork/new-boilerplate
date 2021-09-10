@@ -54,7 +54,7 @@ const LandingPage = (props: any) => {
   const DevopsImg = apiBase(`/assets/talhasch.${global.canUseWebp?"webp":"jpeg"}`);
   const DesignGuru = apiBase(`/assets/dunsky.${global.canUseWebp?"webp":"jpeg"}`);;
 
-  const LogoCircle = global.isElectron ? process.env.NODE_ENV === 'development' ? "../../common/img/logo-circle.svg" : "../../../../../../../common/img/logo-circle.svg" : require("../../img/logo-circle.svg");
+  const LogoCircle = global.isElectron ? "./img/logo-circle.svg" : require("../../img/logo-circle.svg");
 
   const handleSubsccribe = async (e: FormEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ const LandingPage = (props: any) => {
   };
   
   return (
-    <div className="landing-wrapper" id="landing-wrapper">
+    <div className={global.isElectron ? "landing-wrapper pt-5" : "landing-wrapper"} id="landing-wrapper">
       <div className="top-bg" />
       <div className="tob-bg-algae" />
       <div className="tob-bg-fishes" />

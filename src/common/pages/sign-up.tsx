@@ -90,8 +90,8 @@ class SignUpPage extends Component<PageProps, State> {
     render() {
         const {global} = this.props;
 
-        const signupSvg = global.isElectron ? process.env.NODE_ENV === 'development' ? "../../common/img/signup.svg" : "../../../../../../../common/img/signup.svg" : require("../img/signup.svg");
-        const logoCircle = global.isElectron ? process.env.NODE_ENV === 'development' ? "../../common/img/logo-circle.svg" : "../../../../../../../common/img/logo-circle.svg" : require("../img/logo-circle.svg");
+        const signupSvg = global.isElectron ? "./img/signup.png" : require("../img/signup.png");
+        const logoCircle = global.isElectron ? "./img/logo-circle.svg" : require("../img/logo-circle.svg");
 
         //  Meta config
         const metaProps = {
@@ -100,7 +100,7 @@ class SignUpPage extends Component<PageProps, State> {
 
         const {username, email, referral, lockReferral, inProgress, done} = this.state;
         const spinner = <Spinner animation="grow" variant="light" size="sm" style={{marginRight: "6px"}}/>;
-        let containerClasses = global.isElectron ? "app-content sign-up-page mb-lg-0 mt-0" : "app-content sign-up-page mb-lg-0";
+        let containerClasses = global.isElectron ? "app-content sign-up-page mb-lg-0 mt-0 pt-6" : "app-content sign-up-page mb-lg-0";
 
         return (
             <>
