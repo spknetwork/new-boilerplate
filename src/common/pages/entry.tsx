@@ -15,6 +15,7 @@ import {FullAccount} from "../store/accounts/types";
 import EntryLink, {makePath as makeEntryPath} from "../components/entry-link";
 
 import BaseComponent from "../components/base";
+import ClickAwayListener from "../components/clickaway-listener";
 import ProfileLink from "../components/profile-link";
 import UserAvatar from "../components/user-avatar";
 import Tag from "../components/tag";
@@ -69,9 +70,9 @@ import dmca from '../../common/constants/dmca.json';
 
 import { getFollowing } from "../api/hive";
 import { history } from "../store";
-import { deleteForeverSvg, pencilOutlineSvg } from "../img/svg";
+import { copyContent, deleteForeverSvg, pencilOutlineSvg } from "../img/svg";
 import entryDeleteBtn from "../components/entry-delete-btn";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import {renderToString} from 'react-dom/server'
 
 setProxyBase(defaults.imageServer);
 
@@ -94,6 +95,8 @@ interface State {
     editHistory: boolean;
     showProfileBox: boolean;
     entryIsMuted: boolean;
+    selection: boolean;
+    selectionText: string;
 }
 
 class EntryPage extends BaseComponent<Props, State> {
@@ -104,8 +107,10 @@ class EntryPage extends BaseComponent<Props, State> {
         showIfNsfw: false,
         editHistory: false,
         comment: "",
+        selectionText: "",
         showProfileBox: false,
-        entryIsMuted: false
+        entryIsMuted: false,
+        selection: false
     };
     
     viewElement: HTMLDivElement | undefined;
@@ -394,7 +399,7 @@ class EntryPage extends BaseComponent<Props, State> {
     }
 
     render() {
-        const {loading, replying, showIfNsfw, editHistory, entryIsMuted, edit, comment} = this.state;
+        const {loading, replying, showIfNsfw, editHistory, entryIsMuted, edit, comment, selection, selectionText} = this.state;
         const {global, history, location} = this.props;
 
         const navBar = global.isElectron ? NavBarElectron({
@@ -461,6 +466,13 @@ class EntryPage extends BaseComponent<Props, State> {
             keywords: tags.join(", "),
         };
         let containerClasses = global.isElectron ? "app-content entry-page mt-0 pt-6" : "app-content entry-page";
+        const TestinReactComponent = () => {
+            return <div className="d-flex">
+                        <div>{copyContent}</div>
+                        <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
+                        <div>{copyContent}</div>
+                    </div>
+        }
 
         return (
             <>
@@ -601,7 +613,13 @@ class EntryPage extends BaseComponent<Props, State> {
                                             </>;
                                         }
 
-                                        const renderedBody = {__html: renderPostBody(isComment ? comment.length > 0 ? comment : entry.body :entry.body, false, global.canUseWebp)};
+                                        let renderedBody = {__html: renderPostBody(isComment ? comment.length > 0 ? comment : entry.body :entry.body, false, global.canUseWebp)};
+                                        if(selection){
+                                            let selectedText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
+                                            selectedText = selectedText!.toString()
+                                                    debugger
+                                            renderedBody = {__html:renderedBody.__html.replace(selectedText, selectionText).replaceAll("<p>","<span>") }
+                                        }
                                         
                                         const ctitle = entry.community ? entry.community_title : "";
                                         let extraItems = ownEntry && isComment ? [{
@@ -725,11 +743,15 @@ class EntryPage extends BaseComponent<Props, State> {
                                             <meta itemProp="headline name" content={entry.title}/>
                                             {!edit ? 
                                                 <div itemProp="articleBody" className="entry-body markdown-view user-selectable" dangerouslySetInnerHTML={renderedBody} onMouseUp={(e)=>{
-                                                    let sel = document.getSelection();
-                                                    sel = sel!.toString()
-                                                    if(sel) {
-                                                        debugger
-
+                                                    let selectionText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
+                                                    selectionText = selectionText!.toString()
+                                                    if(selectionText) {
+                                                        let icons = renderToString(<TestinReactComponent/>);
+                                                        
+                                                        icons = icons.replace(` data-reactroot=""`,"")
+                                                        let ComponentToRender = () => <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:""})}><div dangerouslySetInnerHTML={{__html:icons}}></div></ClickAwayListener>
+                                                        selectionText = `<span id='selectedText'><span class="selectedTooltip">${renderToString(<ComponentToRender />)}</span>${selectionText}</span>`;
+                                                        this.setState({selectionText, selection:true})
                                                       }
                                                 }}/> :
                                                 Comment({

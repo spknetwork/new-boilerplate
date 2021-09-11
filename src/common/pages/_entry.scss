@@ -495,3 +495,27 @@
     }
   }
 }
+
+#selectedText{
+  position: relative;
+  .selectedTooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.85);
+    min-height: 40px;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    top: -50px;
+  }
+}
+
+.selectedTooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+  }
