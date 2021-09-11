@@ -72,7 +72,7 @@ import { getFollowing } from "../api/hive";
 import { history } from "../store";
 import { copyContent, deleteForeverSvg, pencilOutlineSvg } from "../img/svg";
 import entryDeleteBtn from "../components/entry-delete-btn";
-import {renderToString} from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 
 setProxyBase(defaults.imageServer);
 
@@ -466,7 +466,7 @@ class EntryPage extends BaseComponent<Props, State> {
             keywords: tags.join(", "),
         };
         let containerClasses = global.isElectron ? "app-content entry-page mt-0 pt-6" : "app-content entry-page";
-        const TestinReactComponent = () => {
+        const Icons = () => {
             return <div className="d-flex">
                         <div>{copyContent}</div>
                         <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
@@ -617,7 +617,7 @@ class EntryPage extends BaseComponent<Props, State> {
                                         if(selection){
                                             let selectedText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
                                             selectedText = selectedText!.toString()
-                                                    debugger
+                                                    
                                             renderedBody = {__html:renderedBody.__html.replace(selectedText, selectionText).replaceAll("<p>","<span>") }
                                         }
                                         
@@ -746,10 +746,8 @@ class EntryPage extends BaseComponent<Props, State> {
                                                     let selectionText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
                                                     selectionText = selectionText!.toString()
                                                     if(selectionText) {
-                                                        let icons = renderToString(<TestinReactComponent/>);
-                                                        
-                                                        icons = icons.replace(` data-reactroot=""`,"")
-                                                        let ComponentToRender = () => <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:""})}><div dangerouslySetInnerHTML={{__html:icons}}></div></ClickAwayListener>
+                                                        let icons = renderToString(<Icons />);
+                                                        let ComponentToRender = () => <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:""})}><div dangerouslySetInnerHTML={{__html:icons}} /></ClickAwayListener>
                                                         selectionText = `<span id='selectedText'><span class="selectedTooltip">${renderToString(<ComponentToRender />)}</span>${selectionText}</span>`;
                                                         this.setState({selectionText, selection:true})
                                                       }
