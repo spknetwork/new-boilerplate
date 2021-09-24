@@ -97,7 +97,7 @@ interface State {
     showProfileBox: boolean;
     entryIsMuted: boolean;
     selection: boolean;
-    selectionText: string;
+    selectionText: Range | null;
 }
 
 class EntryPage extends BaseComponent<Props, State> {
@@ -108,7 +108,7 @@ class EntryPage extends BaseComponent<Props, State> {
         showIfNsfw: false,
         editHistory: false,
         comment: "",
-        selectionText: "",
+        selectionText: null,
         showProfileBox: false,
         entryIsMuted: false,
         selection: false
@@ -131,19 +131,27 @@ class EntryPage extends BaseComponent<Props, State> {
 
     componentDidUpdate(prevProps: Readonly<Props>, prevStates: State): void {
         const {location} = this.props;
-        const {selection} = this.state;
+        const {selection, selectionText} = this.state;
         if (location.pathname !== prevProps.location.pathname) {
             this.ensureEntry()
         }
-        if (selection !== prevStates.selection && selection) {
-            const icons = <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:""})}>
+        if (selectionText !== prevStates.selectionText && selection && selectionText) {
+            const icons = <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:null})}>
                             <div className="d-flex">
                                 <div onClick={(e) => {e.stopPropagation(); alert("Hello")}}>{copyContent}</div>
                                 <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
                                 <div onClick={() => alert("Hello")}>{copyContent}</div>
                             </div>
-                        </ClickAwayListener>
-            ReactDOM.render(icons, document.getElementById('selectedTooltip'))
+                        </ClickAwayListener>;
+                        let parentElement = document.createElement("span");
+                        parentElement.id = 'selectedText';
+                        let tooltipElement = document.createElement("span");
+                        tooltipElement.id = 'selectedTooltip';
+                        parentElement.appendChild(selectionText.extractContents());
+                        selectionText.insertNode(parentElement);
+                        
+                        parentElement.appendChild(tooltipElement)
+                        ReactDOM.render(icons, document.getElementById('selectedTooltip'))
         }
     }
 
@@ -619,12 +627,12 @@ class EntryPage extends BaseComponent<Props, State> {
                                         }
 
                                         let renderedBody = {__html: renderPostBody(isComment ? comment.length > 0 ? comment : entry.body :entry.body, false, global.canUseWebp)};
-                                        if(selection){
-                                            let selectedText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
-                                            selectedText = selectedText!.toString()
+                                        // if(selection){
+                                        //     let selectedText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
+                                        //     selectedText = selectedText!.toString()
                                                     
-                                            renderedBody = {__html:renderedBody.__html.replace(selectedText, selectionText).replaceAll("<p>","<span>") }
-                                        }
+                                        //     renderedBody = {__html:renderedBody.__html.replace(selectedText, selectionText).replaceAll("<p>","<span>") }
+                                        // }
                                         
                                         const ctitle = entry.community ? entry.community_title : "";
                                         let extraItems = ownEntry && isComment ? [{
@@ -749,13 +757,9 @@ class EntryPage extends BaseComponent<Props, State> {
                                             {!edit ? 
                                                 <div itemProp="articleBody" className="entry-body markdown-view user-selectable" dangerouslySetInnerHTML={renderedBody} onMouseUp={(e)=>{
                                                     let selectionText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
-                                                    selectionText = selectionText!.toString()
+                                                    let selectionRange = selectionText!.getRangeAt(0);
                                                     if(selectionText) {
-                                                        // let icons = renderToString(<Icons />);
-                                                        // let icons = Icons;
-                                                        // let ComponentToRender = () => <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:""})}><div dangerouslySetInnerHTML={{__html:icons}} /></ClickAwayListener>
-                                                        selectionText = `<span id='selectedText'><span class="selectedTooltip" id="selectedTooltip"></span>${selectionText}</span>`;
-                                                        this.setState({selectionText, selection:true})
+                                                        this.setState({selectionText: selectionRange, selection:true})
                                                       }
                                                 }}/> :
                                                 Comment({
