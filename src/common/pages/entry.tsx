@@ -147,6 +147,7 @@ class EntryPage extends BaseComponent<Props, State> {
                         parentElement.id = 'selectedText';
                         let tooltipElement = document.createElement("span");
                         tooltipElement.id = 'selectedTooltip';
+                        tooltipElement.className = 'selectedTooltip';
                         parentElement.appendChild(selectionText.extractContents());
                         selectionText.insertNode(parentElement);
                         
