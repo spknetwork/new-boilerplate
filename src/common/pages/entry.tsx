@@ -126,7 +126,17 @@ class EntryPage extends BaseComponent<Props, State> {
         }
         window.addEventListener("scroll", this.detect);
         window.addEventListener("resize", this.detect);
+    }
 
+    undoSurroundContent(){
+        this.setState({selection:false, selectionText:null})
+        let who = document.getElementById("selectedText")
+        if(who){
+            var pa= who.parentNode;
+            while(who.firstChild){
+                pa && pa!.insertBefore(who.firstChild, who);
+        }
+    }
     }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevStates: State): void {
@@ -135,24 +145,27 @@ class EntryPage extends BaseComponent<Props, State> {
         if (location.pathname !== prevProps.location.pathname) {
             this.ensureEntry()
         }
-        if (selectionText !== prevStates.selectionText && selection && selectionText) {
-            const icons = <ClickAwayListener onClickAway={()=>this.setState({selection:false, selectionText:null})}>
-                            <div className="d-flex">
-                                <div onClick={(e) => {e.stopPropagation(); alert("Hello")}}>{copyContent}</div>
-                                <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
-                                <div onClick={() => alert("Hello")}>{copyContent}</div>
-                            </div>
-                        </ClickAwayListener>;
-                        let parentElement = document.createElement("span");
-                        parentElement.id = 'selectedText';
-                        let tooltipElement = document.createElement("span");
-                        tooltipElement.id = 'selectedTooltip';
-                        tooltipElement.className = 'selectedTooltip';
-                        parentElement.appendChild(selectionText.extractContents());
-                        selectionText.insertNode(parentElement);
-                        
-                        parentElement.appendChild(tooltipElement)
-                        ReactDOM.render(icons, document.getElementById('selectedTooltip'))
+        if (selectionText !== prevStates.selectionText) {
+            if(selection && selectionText){
+                const icons = <ClickAwayListener onClickAway={this.undoSurroundContent}>
+                                <div className="d-flex" onMouseLeave={this.undoSurroundContent}>
+                                    <div onClick={(e) => {e.stopPropagation(); alert("Hello")}}>{copyContent}</div>
+                                    <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
+                                    <div onClick={() => alert("Hello")}>{copyContent}</div>
+                                </div>
+                            </ClickAwayListener>;
+                            let parentElement = document.createElement("span");
+                            parentElement.id = 'selectedText';
+                            let tooltipElement = document.createElement("span");
+                            tooltipElement.id = 'selectedTooltip';
+                            tooltipElement.className = 'selectedTooltip';
+                            parentElement.appendChild(selectionText.extractContents());
+                            selectionText.insertNode(parentElement);
+                            parentElement.appendChild(tooltipElement)
+                            ReactDOM.render(icons, document.getElementById('selectedTooltip'))
+            } else {
+                this.undoSurroundContent()
+            }
         }
     }
 
