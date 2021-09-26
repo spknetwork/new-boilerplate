@@ -147,7 +147,16 @@ class EntryPage extends BaseComponent<Props, State> {
         }
         if (selectionText !== prevStates.selectionText) {
             if(selection && selectionText){
-                const icons = <ClickAwayListener onClickAway={this.undoSurroundContent}>
+                const icons = <ClickAwayListener onClickAway={()=>{
+        this.setState({selection:false, selectionText:null})
+        let who = document.getElementById("selectedText")
+        if(who){
+            var pa= who.parentNode;
+            while(who.firstChild){
+                pa && pa!.insertBefore(who.firstChild, who);
+        }
+    }
+    }}>
                                 <div className="d-flex" onMouseLeave={this.undoSurroundContent}>
                                     <div onClick={(e) => {e.stopPropagation(); alert("Hello")}}>{copyContent}</div>
                                     <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
