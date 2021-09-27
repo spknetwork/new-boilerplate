@@ -128,15 +128,14 @@ class EntryPage extends BaseComponent<Props, State> {
         window.addEventListener("resize", this.detect);
     }
 
-    undoSurroundContent(){
-        this.setState({selection:false, selectionText:null})
-        let who = document.getElementById("selectedText")
-        if(who){
-            var pa= who.parentNode;
-            while(who.firstChild){
-                pa && pa!.insertBefore(who.firstChild, who);
-        }
-    }
+    undoSurroundContent = () => {
+        let parent = document.getElementById("selectedText");
+        parent && parent.classList.remove("selectedText");
+        parent && parent.classList.add("d-inline-block");
+        let child = document.getElementById("selectedTooltip");
+        child && child.classList.remove("selectedTooltip");
+        child && child.classList.add("d-inline-block");
+        this.setState({selection:false, selectionText:null});
     }
 
     componentDidUpdate(prevProps: Readonly<Props>, prevStates: State): void {
@@ -146,32 +145,27 @@ class EntryPage extends BaseComponent<Props, State> {
             this.ensureEntry()
         }
         if (selectionText !== prevStates.selectionText) {
-            if(selection && selectionText){
-                const icons = <ClickAwayListener onClickAway={()=>{
-        this.setState({selection:false, selectionText:null})
-        let who = document.getElementById("selectedText")
-        if(who){
-            var pa= who.parentNode;
-            while(who.firstChild){
-                pa && pa!.insertBefore(who.firstChild, who);
-        }
-    }
-    }}>
+            if(selection && selectionText && selectionText.toString().length > 0){
+                this.undoSurroundContent()
+                
+                const icons = <ClickAwayListener onClickAway={this.undoSurroundContent}>
                                 <div className="d-flex" onMouseLeave={this.undoSurroundContent}>
                                     <div onClick={(e) => {e.stopPropagation(); alert("Hello")}}>{copyContent}</div>
                                     <div className="mx-2" onClick={() => alert("Hello")}>{copyContent}</div>
                                     <div onClick={() => alert("Hello")}>{copyContent}</div>
                                 </div>
                             </ClickAwayListener>;
-                            let parentElement = document.createElement("span");
-                            parentElement.id = 'selectedText';
-                            let tooltipElement = document.createElement("span");
-                            tooltipElement.id = 'selectedTooltip';
-                            tooltipElement.className = 'selectedTooltip';
-                            parentElement.appendChild(selectionText.extractContents());
-                            selectionText.insertNode(parentElement);
-                            parentElement.appendChild(tooltipElement)
-                            ReactDOM.render(icons, document.getElementById('selectedTooltip'))
+                let parentElement = document.createElement("span");
+                parentElement.id = 'selectedText';
+                parentElement.className = 'selectedText';
+                let tooltipElement = document.createElement("span");
+                tooltipElement.id = 'selectedTooltip';
+                tooltipElement.className = 'selectedTooltip';
+                ReactDOM.render(icons, tooltipElement)
+                parentElement.appendChild(selectionText.extractContents());
+                selectionText.insertNode(parentElement);
+                parentElement.appendChild(tooltipElement);
+                debugger
             } else {
                 this.undoSurroundContent()
             }
@@ -442,8 +436,8 @@ class EntryPage extends BaseComponent<Props, State> {
     }
 
     render() {
-        const {loading, replying, showIfNsfw, editHistory, entryIsMuted, edit, comment, selection, selectionText} = this.state;
-        const {global, history, location} = this.props;
+        const {loading, replying, showIfNsfw, editHistory, entryIsMuted, edit, comment, selection} = this.state;
+        const {global, history} = this.props;
 
         const navBar = global.isElectron ? NavBarElectron({
             ...this.props,
@@ -650,12 +644,6 @@ class EntryPage extends BaseComponent<Props, State> {
                                         }
 
                                         let renderedBody = {__html: renderPostBody(isComment ? comment.length > 0 ? comment : entry.body :entry.body, false, global.canUseWebp)};
-                                        // if(selection){
-                                        //     let selectedText:any = document.getSelection() || (document as any).selection!.createRange().htmlText;
-                                        //     selectedText = selectedText!.toString()
-                                                    
-                                        //     renderedBody = {__html:renderedBody.__html.replace(selectedText, selectionText).replaceAll("<p>","<span>") }
-                                        // }
                                         
                                         const ctitle = entry.community ? entry.community_title : "";
                                         let extraItems = ownEntry && isComment ? [{

@@ -496,7 +496,7 @@
   }
 }
 
-#selectedText {
+.selectedText {
   position: relative;
   .selectedTooltip {
     position: absolute;
@@ -519,4 +519,10 @@
   border-width: 5px;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+  }
+
+  .d-inline-block {
+    .d-flex {
+      display: none !important;
+    }
   }
