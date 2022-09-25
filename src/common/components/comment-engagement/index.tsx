@@ -6,8 +6,8 @@ import { _t } from "../../i18n";
 function CommentEngagement() {   
 
    const scrollToCommentInput = () => {
-      const inputSection:  Element | null = document.querySelector('.entry-footer');
-      inputSection?.scrollIntoView({behavior: "smooth"});
+      const inputS: HTMLElement | null = document.querySelector(".the-editor");
+      inputS?.focus();
    } 
 
     return ( <div className="comment-engagement">
