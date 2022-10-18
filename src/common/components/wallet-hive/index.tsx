@@ -326,7 +326,7 @@ export class WalletHive extends BaseComponent<Props, State> {
     if (!account.__loaded) {
       return null;
     }
-
+      console.log(account)
     const { hivePerMVests } = dynamicProps;
     const isMyPage = activeUser && activeUser.username === account.name;
     const w = new HiveWallet(account, dynamicProps, converting);
@@ -347,6 +347,14 @@ export class WalletHive extends BaseComponent<Props, State> {
     );
     const interestAmount =
       (Number(hbd) / 100) * (w.savingBalanceHbd / (12 * 30)) * lastIPaymentDiff;
+      // This should return 20% of hbd ssavings balance
+      console.log(((20/100) * w.savingBalanceHbd));
+      // This should return amount of hbd perday
+      console.log(((20/100) * w.savingBalanceHbd) / (12 * 30));
+      // This should return amount of hbd received sinnce las paymeny
+      console.log(((20/100) * w.savingBalanceHbd) / (12 * 30) * lastIPaymentDiff)
+      // Testing with @nineclaws since 14th of october, that is 4 days ago
+      console.log(Math.floor(((20/100) * (310.77 / (12 * 30))) * 4))
     const estimatedInterest = formattedNumber(interestAmount, { suffix: "$" });
     const remainingDays = 30 - lastIPaymentDiff;
 
