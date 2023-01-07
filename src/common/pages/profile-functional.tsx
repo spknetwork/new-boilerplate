@@ -124,6 +124,12 @@ export const Profile = (props: Props) => {
     };
   }, []);
   useEffect(() => {
+    console.log("profile-functional");
+    console.log(props);
+    console.log("props.global.filter");
+    console.log(props.global.filter);
+    console.log("props.global.tag");
+    console.log(props.global.tag);
     setData(props.entries[makeGroupKey(props.global.filter, props.global.tag)]);
     setLoading(false);
   }, [props.global.filter, props.global.tag, props.entries]);

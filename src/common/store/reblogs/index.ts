@@ -13,7 +13,7 @@ import {
 } from "./types";
 import { ActionTypes as ActiveUserActionTypes } from "../active-user/types";
 
-import { getBlogEntries } from "../../api/hive";
+import { getBlogEntries, getAccountVotesTrail } from "../../api/hive";
 
 export const initialState: Reblogs = {
   list: [],
@@ -78,6 +78,30 @@ export const fetchReblogs = () => (dispatch: Dispatch, getState: () => AppState)
       .map((i) => ({ author: i.author, permlink: i.permlink }));
 
     dispatch(fetchedAct(items));
+  });
+};
+//getAccountVotesTrail
+export const fetchAccountVotesTrail = () => (dispatch: Dispatch, getState: () => AppState) => {
+  console.log("FETCHING ACCOUNT VOTES TRAIL");
+  const state = getState();
+
+  const activeUser = state.global.tag.replace("@", "");
+
+  if (!activeUser) {
+    return;
+  }
+
+  dispatch(fetchAct());
+
+  getAccountVotesTrail(activeUser, 200).then((resp) => {
+    console.log(" resp");
+    console.log(resp);
+
+    // const items: Reblog[] = resp
+    //   .filter((i) => i.author !== activeUser.username && !i.reblogged_on.startsWith("1970-"))
+    //   .map((i) => ({ author: i.author, permlink: i.permlink }));
+
+    // dispatch(fetchedAct(items));
   });
 };
 

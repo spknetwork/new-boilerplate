@@ -31,6 +31,7 @@ interface Props {
   updateActiveUser: (data?: Account) => void;
   deleteUser: (username: string) => void;
   fetchReblogs: () => void;
+  fetchAccountVotesTrail: () => void;
   addReblog: (author: string, permlink: string) => void;
   deleteReblog: (author: string, permlink: string) => void;
   toggleUIProp: (what: ToggleType) => void;
@@ -46,19 +47,21 @@ export class EntryReblogBtn extends BaseComponent<Props> {
   };
 
   componentDidMount() {
-    const { activeUser, reblogs, fetchReblogs } = this.props;
+    const { activeUser, reblogs, fetchReblogs, fetchAccountVotesTrail } = this.props;
     if (activeUser && reblogs.canFetch) {
       // since @active-user/LOGIN resets reblogs reducer, wait 500 ms on first load
       // to clientStoreTasks (store/helper.ts) finish its job with logging active user in.
       // Otherwise condenser_api.get_blog_entries will be called 2 times on page load.
       setTimeout(fetchReblogs, 500);
+      setTimeout(fetchAccountVotesTrail, 500);
     }
   }
 
   componentDidUpdate(prevProps: Readonly<Props>) {
-    const { activeUser, reblogs, fetchReblogs } = this.props;
+    const { activeUser, reblogs, fetchReblogs, fetchAccountVotesTrail } = this.props;
     if (activeUser && activeUser.username !== prevProps.activeUser?.username && reblogs.canFetch) {
       fetchReblogs();
+      fetchAccountVotesTrail();
     }
   }
 
@@ -163,6 +166,7 @@ export default (p: Props) => {
     updateActiveUser: p.updateActiveUser,
     deleteUser: p.deleteUser,
     fetchReblogs: p.fetchReblogs,
+    fetchAccountVotesTrail: p.fetchAccountVotesTrail,
     addReblog: p.addReblog,
     deleteReblog: p.deleteReblog,
     toggleUIProp: p.toggleUIProp

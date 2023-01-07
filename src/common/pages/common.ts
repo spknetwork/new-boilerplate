@@ -48,7 +48,7 @@ import { fetchTransactions, resetTransactions } from "../store/transactions";
 import { addUser, deleteUser } from "../store/users";
 import { setActiveUser, updateActiveUser } from "../store/active-user";
 import { toggleUIProp } from "../store/ui";
-import { fetchReblogs, addReblog, deleteReblog } from "../store/reblogs";
+import { fetchReblogs, addReblog, deleteReblog, fetchAccountVotesTrail } from "../store/reblogs";
 import {
   fetchNotifications,
   fetchUnreadNotificationCount,
@@ -138,6 +138,8 @@ export interface PageProps {
 
   reblogs: Reblogs;
   fetchReblogs: () => void;
+  fetchAccountVotesTrail: () => void;
+
   addReblog: (author: string, permlink: string) => void;
   deleteReblog: (author: string, permlink: string) => void;
 
@@ -211,6 +213,7 @@ export const pageMapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
       addReblog,
       deleteReblog,
       fetchReblogs,
+      fetchAccountVotesTrail,
       fetchNotifications,
       fetchUnreadNotificationCount,
       setNotificationsFilter,

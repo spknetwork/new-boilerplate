@@ -46,6 +46,7 @@ interface Props {
   updateActiveUser: (data?: Account) => void;
   deleteUser: (username: string) => void;
   fetchReblogs: () => void;
+  fetchAccountVotesTrail: () => void;
   addReblog: (author: string, permlink: string) => void;
   deleteReblog: (author: string, permlink: string) => void;
   toggleUIProp: (what: ToggleType) => void;
@@ -246,6 +247,7 @@ export default (p: Props) => {
     updateActiveUser: p.updateActiveUser,
     deleteUser: p.deleteUser,
     fetchReblogs: p.fetchReblogs,
+    fetchAccountVotesTrail: p.fetchAccountVotesTrail,
     addReblog: p.addReblog,
     deleteReblog: p.deleteReblog,
     toggleUIProp: p.toggleUIProp,

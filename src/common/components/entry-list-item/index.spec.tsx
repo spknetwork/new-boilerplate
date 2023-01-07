@@ -48,6 +48,7 @@ const defProps = {
   updateActiveUser: () => {},
   deleteUser: () => {},
   fetchReblogs: () => {},
+  fetchAccountVotesTrail: () => {},
   addReblog: () => {},
   deleteReblog: () => {},
   toggleUIProp: () => {},

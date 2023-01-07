@@ -545,3 +545,11 @@ export interface BlogEntry {
 
 export const getBlogEntries = (username: string, limit: number = dataLimit): Promise<BlogEntry[]> =>
   client.call("condenser_api", "get_blog_entries", [username, 0, limit]);
+
+export const getAccountVotesTrail = (
+  username: string,
+  limit: number = dataLimit
+): Promise<BlogEntry[]> => {
+  let params = [username, -1, 1000, 1];
+  return client.call("condenser_api", "get_account_history", params);
+};
