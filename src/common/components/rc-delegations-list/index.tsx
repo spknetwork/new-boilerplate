@@ -119,28 +119,30 @@ export const RcDelegationsList = (props: any) => {
                           <Tooltip content={list.delegated_rc}>
                             <span>{rcFormatter(list.delegated_rc)}</span>
                           </Tooltip>
-                          <a
-                            href="#"
-                            onClick={async () => {
-                              showDelegation();
-                              setShowDelegationsList(false);
-                              setAmountFromList(list.delegated_rc);
-                              setToFromList(list.to);
-                              const data = await getToData(list.to);
-                              setDelegateeData(data);
-                            }}
-                          >
-                            {_t("rc-info.update")}
-                          </a>
-                          <a
-                            href="#"
-                            onClick={() => {
-                              confirmDelete();
-                              setToFromList(list.to);
-                            }}
-                          >
-                            {_t("rc-info.delete")}
-                          </a>
+                          {activeUser && <>
+                            <a
+                              href="#"
+                              onClick={async () => {
+                                showDelegation();
+                                setShowDelegationsList(false);
+                                setAmountFromList(list.delegated_rc);
+                                setToFromList(list.to);
+                                const data = await getToData(list.to);
+                                setDelegateeData(data);
+                              }}
+                            >
+                              {_t("rc-info.update")}
+                            </a>
+                            <a
+                              href="#"
+                              onClick={() => {
+                                confirmDelete();
+                                setToFromList(list.to);
+                              }}
+                            >
+                              {_t("rc-info.delete")}
+                            </a>
+                          </>}
                         </div>
                       </div>
                     );
