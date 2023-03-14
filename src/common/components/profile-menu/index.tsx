@@ -43,6 +43,7 @@ export class ProfileMenu extends Component<Props> {
         ...[
           ProfileFilter.blog,
           ProfileFilter.posts,
+          ProfileFilter.activities,
           ProfileFilter.comments,
           ProfileFilter.replies
         ].map((x) => {

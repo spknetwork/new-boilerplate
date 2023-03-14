@@ -11,7 +11,7 @@ import { vestsToRshares } from "../helper/vesting";
 import isCommunity from "../helper/is-community";
 
 import SERVERS from "../constants/servers.json";
-import { dataLimit } from "./bridge";
+import { dataLimit, getPost as getPostNew } from "./bridge";
 import moment, { Moment } from "moment";
 
 export const client = new Client(SERVERS, {
@@ -601,6 +601,24 @@ export const getBlogEntries = (username: string, limit: number = dataLimit): Pro
 
 export const findAccountRecoveryRequest = (account: string): Promise<any> =>
   client.call("database_api", "find_change_recovery_account_requests", { accounts: [account] });
+
+export const getAccountActivities = (
+  username: string,
+  start = -1,
+  limit = 20
+): Promise<BlogEntry[]> => {
+  let params = [username, start, limit];
+  return client.call("condenser_api", "get_account_history", params).then((data) => {
+    let result = data
+      .map((obj: any) => {
+        return { ...obj[1].op[1], num: obj[0] };
+      })
+      .filter((obj: any) => obj.voter === username);
+    return Promise.all(
+      result.map((obj: any) => getPostNew(obj.author, obj.permlink, username, obj.num))
+    );
+  });
+};
 
 // @source https://ecency.com/hive-139531/@andablackwidow/rc-stats-in-1-27
 export type RcOperation =

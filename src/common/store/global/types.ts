@@ -28,7 +28,8 @@ export enum ProfileFilter {
   blog = "blog",
   posts = "posts",
   comments = "comments",
-  replies = "replies"
+  replies = "replies",
+  activities = "activities"
 }
 
 // TODO: Find a proper way to merge EntryFilter and ProfileFilter
