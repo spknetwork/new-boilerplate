@@ -187,15 +187,12 @@ export const CommunityPage = (props: Props) => {
     const ncount = props.notifications.unread > 0 ? `(${props.notifications.unread}) ` : "";
     const fC = capitalize(filter);
     const title = `${ncount}${community!!.title.trim()} community ${filter} list`;
-    const description = _t("community.page-description", {
-      f: `${fC} ${community!!.title.trim()}`
-    });
-    const url = `/${filter}/${community!!.name}`;
-    const rss = `${defaults.base}/${filter}/${community!!.name}/rss.xml`;
-    const image = `${defaults.imageServer}/u/${community!!.name}/avatar/medium`;
-    const canonical = `${defaults.base}/created/${community!!.name}`;
+    const url = `/${filter}/${hive_id}`;
+    const rss = `${defaults.base}/${filter}/${hive_id}/rss.xml`;
+    const image = `${defaults.imageServer}/u/${hive_id}/avatar/medium`;
+    const canonical = `${defaults.base}/created/${hive_id}`;
 
-    return { title, description, url, rss, image, canonical };
+    return { title, url, rss, image, canonical };
   };
 
   const navBar = props.global.isElectron ? (
@@ -273,7 +270,7 @@ export const CommunityPage = (props: Props) => {
                           onChange={handleChangeSearch}
                           autoComplete="off"
                           showcopybutton={true}
-                          filter={`${community!!.name}`}
+                          filter={`${hive_id}`}
                           username={props.match.params.filter}
                         />
                       </div>

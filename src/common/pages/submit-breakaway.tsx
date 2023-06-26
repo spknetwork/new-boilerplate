@@ -34,7 +34,7 @@ import NavBarElectron from "../../desktop/app/components/navbar";
 import FullHeight from "../components/full-height";
 import EditorToolbar from "../components/editor-toolbar";
 import TagSelector from "../components/tag-selector";
-import CommunitySelector from "../components/community-selector";
+import CommunitySelector from "../components/community-selector/breakaway";
 import Tag from "../components/tag";
 import LoginRequired from "../components/login-required";
 import WordCount from "../components/word-counter";
