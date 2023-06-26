@@ -6,7 +6,7 @@ import configureStore from "../common/store/configure";
 import { hasKeyChainAct } from "../common/store/global";
 import { clientStoreTasks } from "../common/store/helper";
 import { history } from "../common/store";
-import App from "../common/app";
+import App from "../common/app-breakaway";
 import { AppWindow } from "./window";
 import "../style/style.scss";
 import "./base-handlers";

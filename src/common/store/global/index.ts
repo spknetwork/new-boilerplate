@@ -48,6 +48,10 @@ export const initialState: Global = {
   nsfw: false,
   isMobile: false,
   usePrivate: true,
+  ctheme: "sky",
+  tags: ["spk", "3speak"],
+  hive_id: "hive-112019",
+  baseApiUrl: "https://account-creator.3speak.tv/api",
   hsClientId: "ecency.app",
   lastIndexPath: null
 };

@@ -28,12 +28,13 @@ import { CommunityMenu } from "../components/community-menu";
 import { CommunityCover } from "../components/community-cover";
 import { NotFound } from "../components/404";
 import NavBarElectron from "../../desktop/app/components/navbar";
-import NavBar from "../components/navbar";
+import NavBar from "../components/navbar/breakaway";
 import { CommunityCard } from "../components/community-card";
 import { CommunityRoles } from "../components/community-roles";
 import { EntryListContent } from "../components/entry-list";
 import { connect } from "react-redux";
 import { withPersistentScroll } from "../components/with-persistent-scroll";
+import { useMappedStore } from "../store/use-mapped-store";
 import "./community.scss";
 
 interface MatchParams {
@@ -57,6 +58,9 @@ export const CommunityPage = (props: Props) => {
   const [search, setSearch] = useState(getSearchParam());
   const [searchDataLoading, setSearchDataLoading] = useState(getSearchParam().length > 0);
   const [searchData, setSearchData] = useState<SearchResult[]>([]);
+  const {
+    global: { hive_id, tags }
+  } = useMappedStore();
 
   const prevMatch = usePrevious(props.match);
   const prevActiveUser = usePrevious(props.activeUser);
@@ -117,7 +121,7 @@ export const CommunityPage = (props: Props) => {
   const ensureData = async (): Promise<void> => {
     const { match, communities, addCommunity, accounts, addAccount, activeUser } = props;
 
-    const name = match.params.name;
+    const name = hive_id;
     const community = communities.find((x) => x.name === name);
     const account = accounts.find((x) => x.name === name);
 
@@ -250,7 +254,9 @@ export const CommunityPage = (props: Props) => {
             const data = props.entries[groupKey];
 
             if (data !== undefined) {
-              const entryList = data?.entries;
+              const entryList = data?.entries.filter(({ json_metadata: { tags: entryTags } }) =>
+                entryTags?.some((tag) => tags.includes(tag))
+              );
               const loading = data?.loading;
 
               return (
