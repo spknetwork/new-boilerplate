@@ -139,8 +139,6 @@ export class Browser extends BaseComponent<BrowserProps, BrowserState> {
       );
     }
 
-    console.log(subscriptions);
-
     return (
       <div className="browser">
         {search}
