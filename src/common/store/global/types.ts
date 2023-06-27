@@ -71,6 +71,10 @@ export interface Global {
   usePrivate: boolean;
   hsClientId: string;
   lastIndexPath: string | null;
+  ctheme: string;
+  tags: string[];
+  hive_id: string;
+  baseApiUrl: string;
 }
 
 export enum ActionTypes {
