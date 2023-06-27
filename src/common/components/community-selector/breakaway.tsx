@@ -99,7 +99,6 @@ export class Browser extends BaseComponent<BrowserProps, BrowserState> {
         />
       </div>
     );
-    console.log(results);
 
     if (query) {
       return (
@@ -139,6 +138,8 @@ export class Browser extends BaseComponent<BrowserProps, BrowserState> {
         </div>
       );
     }
+
+    console.log(subscriptions);
 
     return (
       <div className="browser">
