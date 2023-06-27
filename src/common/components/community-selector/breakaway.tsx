@@ -166,25 +166,27 @@ export class Browser extends BaseComponent<BrowserProps, BrowserState> {
 
             {subscriptions?.length > 0 && (
               <>
-                {subscriptions.map((x) => (
-                  <a
-                    href="#"
-                    key={x[0]}
-                    className="list-item"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onSelect(x[0]);
-                      onHide();
-                    }}
-                  >
-                    <div className="item-main">
-                      <UserAvatar username={x[0]} size="small" />
-                      <div className="item-info">
-                        <span className="item-name notranslate">{x[1]}</span>
+                {subscriptions
+                  .filter((subscription) => subscription[0] === global.hive_id)
+                  .map((x) => (
+                    <a
+                      href="#"
+                      key={x[0]}
+                      className="list-item"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onSelect(x[0]);
+                        onHide();
+                      }}
+                    >
+                      <div className="item-main">
+                        <UserAvatar username={x[0]} size="small" />
+                        <div className="item-info">
+                          <span className="item-name notranslate">{x[1]}</span>
+                        </div>
                       </div>
-                    </div>
-                  </a>
-                ))}
+                    </a>
+                  ))}
               </>
             )}
           </div>
