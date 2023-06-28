@@ -128,12 +128,7 @@ const Index = (props: PageProps) => {
           setStepTwo={() => setNewStep(2)}
         />
       )}
-      {showLandingPage && (
-        <LandingPage {...props} loading={loading} setLoading={setLoading} setStep={setNewStep} />
-      )}
-      {showEntryPage && (
-        <EntryIndexContainer {...props} loading={loading} setLoading={setLoading} reload={reload} />
-      )}
+      <LandingPage {...props} loading={loading} setLoading={setLoading} setStep={setNewStep} />
     </>
   );
 };
