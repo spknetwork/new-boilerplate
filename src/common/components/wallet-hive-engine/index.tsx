@@ -670,7 +670,12 @@ export class WalletHiveEngine extends BaseComponent<Props, State> {
               )}
             </div>
           </div>
-          <WalletMenu global={global} username={account.name} active="engine" />
+          <WalletMenu
+            activeUser={activeUser}
+            global={global}
+            username={account.name}
+            active="engine"
+          />
         </div>
         {this.state.transfer && (
           <Transfer

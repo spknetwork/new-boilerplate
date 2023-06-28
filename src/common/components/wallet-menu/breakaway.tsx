@@ -10,28 +10,57 @@ import defaults from "../../constants/defaults.json";
 import { hiveSvg, spkSvg } from "../../img/svg";
 import { hiveEngineSvg } from "../../img/svg";
 import "./_index.scss";
+import { ActiveUser } from "../../store/active-user/types";
+import { getCommunity } from "../../api/bridge";
+import { Community } from "../../store/communities/types";
 
 interface Props {
   global: Global;
   username: string;
   active: string;
+  activeUser: ActiveUser | null;
+}
+
+interface State {
+  communityData: Community | null;
 }
 
 export default class WalletMenu extends Component<Props> {
+  state: State = {
+    communityData: null
+  };
+
+  componentDidMount(): void {
+    const {
+      activeUser,
+      global: { hive_id }
+    } = this.props;
+    getCommunity(hive_id, activeUser?.username).then((data) =>
+      this.setState({ ...this.state, communityData: data })
+    );
+  }
+
   render() {
-    const { global, username, active } = this.props;
-    const logo = global.isElectron
+    const {
+      global: { isElectron, usePrivate, hive_id },
+      username,
+      active
+    } = this.props;
+    const { communityData } = this.state;
+    const logo = isElectron
       ? "./img/logo-small-transparent.png"
-      : require(`${defaults.imageServer}/u/${global.hive_id}/avatar/lardge`);
+      : require(`${defaults.imageServer}/u/${hive_id}/avatar/lardge`);
+
+    console.log(communityData);
 
     return (
       <div className="wallet-menu">
-        {global.usePrivate && (
+        {usePrivate && (
           <Link
             className={_c(`menu-item ecency ${active === "ecency" ? "active" : ""}`)}
             to={`/@${username}/points`}
           >
-            <span className="title">Ecency</span>
+            <span className="title">Community</span>
             <span className="sub-title">Points</span>
             <span className="platform-logo">
               <img alt="ecency" src={logo} />
