@@ -26,7 +26,7 @@ import ProfileSettings from "../components/profile-settings";
 import ProfileReferrals from "../components/profile-referrals";
 import WalletHive from "../components/wallet-hive";
 import WalletHiveEngine from "../components/wallet-hive-engine";
-import WalletEcency from "../components/wallet-ecency";
+import WalletEcency from "../components/wallet-ecency/breakaway";
 import ScrollToTop from "../components/scroll-to-top";
 import SearchListItem from "../components/search-list-item";
 import SearchBox from "../components/search-box";
