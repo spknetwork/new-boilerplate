@@ -52,10 +52,10 @@ export const CommunityPage = (props: Props) => {
   };
 
   const queryClient = useQueryClient();
-  const { data: community } = useCommunityCache(props.match.params.name);
+  const { data: community } = useCommunityCache(props.global.hive_id);
 
   const [account, setAccount] = useState<Account | undefined>(
-    props.accounts.find(({ name }) => [props.match.params.name])
+    props.accounts.find(({ name }) => [props.global.hive_id])
   );
   const [typing, setTyping] = useState(false);
   const [search, setSearch] = useState(getSearchParam());
@@ -100,12 +100,11 @@ export const CommunityPage = (props: Props) => {
     const { params: prevParams } = prevMatch;
 
     // community changed. fetch community and account data.
-    if (name !== prevParams.name)
-      queryClient.invalidateQueries([QueryIdentifiers.COMMUNITY, match.params.name]);
+    if (name !== prevParams.name) queryClient.invalidateQueries([QueryIdentifiers.COMMUNITY, name]);
 
     //  community or filter changed
     if ((filter !== prevParams.filter || name !== prevParams.name) && EntryFilter[filter]) {
-      fetchEntries(match.params.filter, match.params.name, false);
+      fetchEntries(match.params.filter, name, false);
     }
 
     // re-fetch subscriptions once active user changed.

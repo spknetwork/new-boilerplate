@@ -349,7 +349,7 @@ export const WalletEcency = (props: Props) => {
 
             <div className="balance-row alternative">
               <div className="balance-info">
-                <div className="title">{"Ecency Points"}</div>
+                <div className="title">Community Points</div>
                 <div className="description">{_t("points.main-description")}</div>
               </div>
               <div className="balance-values">

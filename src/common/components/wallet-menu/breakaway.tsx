@@ -46,12 +46,9 @@ export default class WalletMenu extends Component<Props> {
       username,
       active
     } = this.props;
-    const { communityData } = this.state;
     const logo = isElectron
       ? "./img/logo-small-transparent.png"
-      : require(`${defaults.imageServer}/u/${hive_id}/avatar/lardge`);
-
-    console.log(communityData);
+      : `${defaults.imageServer}/u/${hive_id}/avatar/lardge`;
 
     return (
       <div className="wallet-menu">

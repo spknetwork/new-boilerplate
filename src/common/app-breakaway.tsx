@@ -28,36 +28,54 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient, EntriesCacheManager } from "./core";
 
 // Define lazy pages
-const ProfileContainer = loadable(() => import("./pages/profile-breakaway"));
+const ProfileContainer = loadable(() => import("./pages/profile-breakaway"), {
+  fallback: <div>Wait</div>
+});
 const ProfilePage = (props: any) => <ProfileContainer {...props} />;
 
-const CommunityContainer = loadable(() => import("./pages/community-breakaway"));
+const CommunityContainer = loadable(() => import("./pages/community-breakaway"), {
+  fallback: <div>Wait</div>
+});
 const CommunityPage = (props: any) => <CommunityContainer {...props} />;
 
-const DiscoverContainer = loadable(() => import("./pages/discover"));
+const DiscoverContainer = loadable(() => import("./pages/discover"), {
+  fallback: <div>Wait</div>
+});
 const DiscoverPage = (props: any) => <DiscoverContainer {...props} />;
 
-const WitnessesContainer = loadable(() => import("./pages/witnesses"));
+const WitnessesContainer = loadable(() => import("./pages/witnesses"), {
+  fallback: <div>Wait</div>
+});
 const WitnessesPage = (props: any) => <WitnessesContainer {...props} />;
 
-const AuthContainer = loadable(() => import("./pages/auth"));
+const AuthContainer = loadable(() => import("./pages/auth"), {
+  fallback: <div>Wait</div>
+});
 const AuthPage = (props: any) => <AuthContainer {...props} />;
 
-const SubmitContainer = loadable(() => import("./pages/submit-breakaway"));
+const SubmitContainer = loadable(() => import("./pages/submit-breakaway"), {
+  fallback: <div>Wait</div>
+});
 const SubmitPage = (props: any) => <SubmitContainer {...props} />;
 
-const MarketContainer = loadable(() => import("./pages/market"));
+const MarketContainer = loadable(() => import("./pages/market"), {
+  fallback: <div>Wait</div>
+});
 const MarketPage = (props: any) => <MarketContainer {...props} />;
 
-const SignUpContainer = loadable(() => import("./pages/sign-up"));
+const SignUpContainer = loadable(() => import("./pages/sign-up"), {
+  fallback: <div>Wait</div>
+});
 const SignUpPage = (props: any) => <SignUpContainer {...props} />;
 
-const CommunityCreateHSContainer = loadable(() => import("./pages/community-create-hs"));
-
-const PurchaseContainer = loadable(() => import("./pages/purchase"));
+const PurchaseContainer = loadable(() => import("./pages/purchase"), {
+  fallback: <div>Wait</div>
+});
 const PurchasePage = (props: any) => <PurchaseContainer {...props} />;
 
-const DecksPage = loadable(() => import("./pages/decks"));
+const DecksPage = loadable(() => import("./pages/decks"), {
+  fallback: <div>Wait</div>
+});
 
 const App = (props: any) => {
   const { global } = useMappedStore();
