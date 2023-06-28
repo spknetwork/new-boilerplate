@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
-import EntryIndexContainer from "./pages/index-breakaway";
-import EntryContainer from "./pages/entry";
+import EntryIndexContainer from "./pages/";
 import { SearchPageContainer, SearchMorePageContainer } from "./pages/search";
 import { ProposalsIndexContainer, ProposalDetailContainer } from "./pages/proposals";
 import NotFound from "./components/404";
@@ -55,12 +54,6 @@ const SignUpPage = (props: any) => <SignUpContainer {...props} />;
 
 const CommunityCreateHSContainer = loadable(() => import("./pages/community-create-hs"));
 
-const EntryAMPContainer = loadable(() => import("./pages/amp/entry-amp-page"));
-const EntryPage = (props: any) => {
-  const [isAmp, setIsAmp] = useState(props.location.search.includes("?amps"));
-  return isAmp ? <EntryAMPContainer {...props} /> : <EntryContainer {...props} />;
-};
-
 const PurchaseContainer = loadable(() => import("./pages/purchase"));
 const PurchasePage = (props: any) => <PurchaseContainer {...props} />;
 
@@ -98,7 +91,6 @@ const App = (props: any) => {
           <Route exact={true} strict={true} path={routes.PURCHASE} component={PurchasePage} />
           <Route exact={true} strict={true} path={routes.USER} component={ProfilePage} />
           <Route exact={true} strict={true} path={routes.USER_SECTION} component={ProfilePage} />
-          <Route exact={true} strict={true} path={routes.ENTRY} component={EntryPage} />
           <Route exact={true} strict={true} path={routes.COMMUNITY} component={CommunityPage} />
           <Route
             exact={true}
