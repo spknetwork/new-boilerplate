@@ -18,7 +18,7 @@ import Promote from "../promote";
 import Boost from "../boost";
 
 import LinearProgress from "../linear-progress";
-import WalletMenu from "../wallet-menu";
+import WalletMenu from "../wallet-menu/breakaway";
 import EntryLink from "../entry-link";
 
 import { error, success } from "../feedback";
