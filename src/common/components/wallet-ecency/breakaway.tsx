@@ -47,6 +47,8 @@ import FormattedCurrency from "../formatted-currency";
 import { dateToFullRelative } from "../../helper/parse-date";
 import { PurchaseQrDialog } from "../purchase-qr";
 import { PurchaseTypes } from "../purchase-qr/purchase-types";
+import { Community } from "../../store/communities";
+import { getCommunity } from "../../api/bridge";
 
 export const formatMemo = (memo: string, history: History) => {
   return memo.split(" ").map((x) => {
@@ -198,6 +200,7 @@ export const WalletEcency = (props: Props) => {
   const [estimatedPointsValueLoading, setEstimatedPointsValueLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [showPurchaseDialog, setShowPurchaseDialog] = useState(false);
+  const [communityData, setCommunityData] = useState<Community | null>(null);
 
   const { global, activeUser, account, points, history, fetchPoints, updateActiveUser } = props;
 
@@ -214,6 +217,13 @@ export const WalletEcency = (props: Props) => {
     return () => {
       setIsMounted(false);
     };
+  }, []);
+
+  useEffect(() => {
+    const { hive_id } = global;
+    getCommunity(hive_id, activeUser?.username).then((data) => {
+      setCommunityData(data);
+    });
   }, []);
 
   const getEstimatedPointsValue = () => {
@@ -349,7 +359,7 @@ export const WalletEcency = (props: Props) => {
 
             <div className="balance-row alternative">
               <div className="balance-info">
-                <div className="title">Community Points</div>
+                <div className="title">{communityData?.title} Points</div>
                 <div className="description">{_t("points.main-description")}</div>
               </div>
               <div className="balance-values">

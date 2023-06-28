@@ -46,9 +46,13 @@ export default class WalletMenu extends Component<Props> {
       username,
       active
     } = this.props;
+    const { communityData } = this.state;
     const logo = isElectron
       ? "./img/logo-small-transparent.png"
       : `${defaults.imageServer}/u/${hive_id}/avatar/lardge`;
+
+    if (!communityData) return <h1>Nothing to see here!</h1>;
+    const { title } = communityData;
 
     return (
       <div className="wallet-menu">
@@ -57,7 +61,7 @@ export default class WalletMenu extends Component<Props> {
             className={_c(`menu-item ecency ${active === "ecency" ? "active" : ""}`)}
             to={`/@${username}/points`}
           >
-            <span className="title">Community</span>
+            <span className="title">{title}</span>
             <span className="sub-title">Points</span>
             <span className="platform-logo">
               <img alt="ecency" src={logo} />
