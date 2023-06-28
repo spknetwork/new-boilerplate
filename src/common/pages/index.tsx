@@ -6,7 +6,7 @@ import Theme from "../components/theme";
 import Feedback from "../components/feedback";
 import NavBarElectron from "../../desktop/app/components/navbar";
 import { getMetaProps } from "../util/get-meta-props";
-import NavBar from "../components/navbar";
+import NavBar from "../components/navbar/breakaway";
 import { makeGroupKey } from "../store/entries";
 import { connect } from "react-redux";
 import { withPersistentScroll } from "../components/with-persistent-scroll";
@@ -14,7 +14,6 @@ import loadable from "@loadable/component";
 import { useMappedStore } from "../store/use-mapped-store";
 
 const LandingPage = loadable(() => import("../components/landing-page"));
-const EntryIndexContainer = loadable(() => import("./entry-index"));
 
 const Index = (props: PageProps) => {
   const [step, setStep] = useState(1);
@@ -117,12 +116,7 @@ const Index = (props: PageProps) => {
           setStepTwo={() => setNewStep(2)}
         />
       )}
-      {showLandingPage && (
-        <LandingPage {...props} loading={loading} setLoading={setLoading} setStep={setNewStep} />
-      )}
-      {showEntryPage && (
-        <EntryIndexContainer {...props} loading={loading} setLoading={setLoading} reload={reload} />
-      )}
+      <LandingPage {...props} loading={loading} setLoading={setLoading} setStep={setNewStep} />
     </>
   );
 };
