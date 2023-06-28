@@ -11,7 +11,7 @@ import BaseComponent from "../base";
 import HiveEngineToken from "../../helper/hive-engine-wallet";
 import LinearProgress from "../linear-progress";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import WalletMenu from "../wallet-menu";
+import WalletMenu from "../wallet-menu/breakaway";
 import { SortEngineTokens } from "../sort-hive-engine-tokens";
 import { EngineTokensEstimated } from "../engine-tokens-estimated";
 import Transfer, { TransferMode } from "../transfer-he";
@@ -670,7 +670,12 @@ export class WalletHiveEngine extends BaseComponent<Props, State> {
               )}
             </div>
           </div>
-          <WalletMenu global={global} username={account.name} active="engine" />
+          <WalletMenu
+            activeUser={activeUser}
+            global={global}
+            username={account.name}
+            active="engine"
+          />
         </div>
         {this.state.transfer && (
           <Transfer

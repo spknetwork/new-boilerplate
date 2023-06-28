@@ -18,7 +18,7 @@ import Promote from "../promote";
 import Boost from "../boost";
 
 import LinearProgress from "../linear-progress";
-import WalletMenu from "../wallet-menu";
+import WalletMenu from "../wallet-menu/breakaway";
 import EntryLink from "../entry-link";
 
 import { error, success } from "../feedback";
@@ -528,8 +528,12 @@ export const WalletEcency = (props: Props) => {
               })()}
             </div>
           </div>
-
-          <WalletMenu global={global} username={account.name} active="ecency" />
+          <WalletMenu
+            activeUser={activeUser}
+            global={global}
+            username={account.name}
+            active="ecency"
+          />
         </div>
 
         {transfer && (

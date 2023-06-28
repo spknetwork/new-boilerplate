@@ -24,7 +24,7 @@ import OpenOrdersList from "../open-orders-list";
 import DropDown from "../dropdown";
 import Transfer, { TransferMode, TransferAsset } from "../transfer";
 import { error, success } from "../feedback";
-import WalletMenu from "../wallet-menu";
+import WalletMenu from "../wallet-menu/breakaway";
 import WithdrawRoutes from "../withdraw-routes";
 
 import HiveWallet from "../../helper/hive-wallet";
