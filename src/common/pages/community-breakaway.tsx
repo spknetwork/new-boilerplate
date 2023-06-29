@@ -30,7 +30,7 @@ import NavBarElectron from "../../desktop/app/components/navbar";
 import NavBar from "../components/navbar/breakaway";
 import { CommunityCard } from "../components/community-card";
 import { CommunityRoles } from "../components/community-roles";
-import { EntryListContent } from "../components/entry-list";
+import { EntryListContent } from "../components/entry-list/breakaway";
 import { connect } from "react-redux";
 import { withPersistentScroll } from "../components/with-persistent-scroll";
 import "./community.scss";
@@ -236,7 +236,9 @@ export const CommunityPage = (props: Props) => {
             const data = props.entries[groupKey];
 
             if (data !== undefined) {
-              const entryList = data?.entries;
+              const entryList = data?.entries.filter((entry) =>
+                props.global.tags?.some((tag) => entry.json_metadata.tags?.includes(tag))
+              );
               const loading = data?.loading;
 
               return (
