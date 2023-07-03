@@ -259,10 +259,7 @@ export const CommunityPage = (props: Props) => {
             const data = entries[groupKey];
 
             if (data !== undefined) {
-              console.log(tags);
-              const entryList = data?.entries.filter((entry) =>
-                tags?.some((tag) => entry.json_metadata.tags?.includes(tag))
-              );
+              const entryList = data?.entries;
               const loading = data?.loading;
 
               return (
