@@ -28,8 +28,6 @@ import { search, SearchResult } from "../../api/search-api";
 
 import moment, { Moment } from "moment";
 
-import * as ss from "../../util/session-storage";
-
 export const makeGroupKey = (what: string, tag: string = ""): string => {
   if (tag) {
     return `${what}-${tag}`;
@@ -143,11 +141,11 @@ export default (state: Entries = initialState, action: Actions): Entries => {
 
 /* Actions */
 export const fetchEntries =
-  (what: string = "", tag: string = "", more: boolean = false) =>
+  (what: string = "", tag: string | string[] = "", more: boolean = false) =>
   (dispatch: Dispatch, getState: () => AppState) => {
     const { entries, activeUser } = getState();
 
-    const groupKey = makeGroupKey(what, tag);
+    const groupKey = makeGroupKey(what, Array.isArray(tag) ? tag[0] : tag);
 
     const theEntries = entries[groupKey].entries;
     const sid = entries[groupKey].sid;
@@ -171,9 +169,9 @@ export const fetchEntries =
 
     // let promise: Promise<Entry[] | null>;
     let promise: Promise<any>;
-    if (tag.startsWith("@")) {
+    if ((Array.isArray(tag) ? tag[0] : tag).startsWith("@")) {
       // @username/posts|replies|comments|feed
-      const username = tag.replace("@", "");
+      const username = (Array.isArray(tag) ? tag[0] : tag).replace("@", "");
 
       promise = getAccountPosts(what, username, start_author, start_permlink, dataLimit, observer);
     } else if (["controversial", "rising"].includes(what)) {
@@ -203,9 +201,26 @@ export const fetchEntries =
       const scrollId_ = scrollId ? scrollId : undefined;
       const votes = tag === "today" ? 50 : 200;
       promise = search(q, sort, hideLow_, since, scrollId_, votes);
+    } else if (Array.isArray(tag)) {
+      let promises = tag.map((tag) =>
+        getPostsRanked(what, start_author, start_permlink, dataLimit, tag, observer)
+      );
+      Promise.all(promises)
+        .then((arrays) => arrays.flatMap((arr) => arr as Entry[]))
+        .then((resp) => {
+          dispatch(fetchedAct(groupKey, resp, "", resp.length >= dataLimit));
+        });
+      return;
     } else {
       // trending/tag
-      promise = getPostsRanked(what, start_author, start_permlink, dataLimit, tag, observer);
+      promise = getPostsRanked(
+        what,
+        start_author,
+        start_permlink,
+        dataLimit,
+        Array.isArray(tag) ? tag[0] : tag,
+        observer
+      );
     }
 
     promise
