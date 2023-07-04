@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import EntryIndexContainer from "./pages/index";
-import { EntryScreen } from "./pages/entry";
+import { EntryScreen } from "./pages/entry/breakaway";
 import { SearchPageContainer, SearchMorePageContainer } from "./pages/search";
 import { ProposalsIndexContainer, ProposalDetailContainer } from "./pages/proposals";
 import NotFound from "./components/404";

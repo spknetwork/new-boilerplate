@@ -19,7 +19,7 @@ import parseDate from "../../helper/parse-date";
 import isCommunity from "../../helper/is-community";
 import defaults from "../../constants/defaults.json";
 import NavBarElectron from "../../../desktop/app/components/navbar";
-import NavBar from "../../components/navbar";
+import NavBar from "../../components/navbar/breakaway";
 import EditHistory from "../../components/edit-history";
 import EntryBodyExtra from "../../components/entry-body-extra";
 import ReadTime from "../../components/entry-read-time";
