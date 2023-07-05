@@ -7,7 +7,9 @@ export default {
   redisUrl: process.env.REDIS_URL,
   hive_id: process.env.HIVE_ID || "",
   theme: process.env.THEME || "",
-  tags: process.env.TAGS?.split(",") || "",
+  tags: [process.env.HIVE_ID || "", ...(process.env.TAGS?.split(",") || [])] || [
+    process.env.HIVE_ID || ""
+  ],
   availibleAccounts: process.env.ACCOUNTS ? +process.env.ACCOUNTS : 0,
   baseApiUrl: process.env.API_URL || "https://account-creator.3speak.tv/api"
 };

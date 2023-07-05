@@ -71,11 +71,16 @@ export const CommunityPage = (props: Props) => {
 
     if (search.length) handleInputChange(search);
 
-    const { match, fetchEntries, global } = props;
+    const {
+      match,
+      fetchEntries,
+      global: { tags }
+    } = props;
     const { filter } = match.params;
-    const { hive_id: name } = global;
     // fetch blog posts.
-    if (EntryFilter[filter]) fetchEntries(filter, name, false);
+    if (EntryFilter[filter]) {
+      fetchEntries(filter, tags, false);
+    }
 
     fetchSubscriptions();
   }, []);
@@ -91,7 +96,7 @@ export const CommunityPage = (props: Props) => {
   useEffect(() => {
     const { match, fetchEntries, global } = props;
     const { filter } = match.params;
-    const { hive_id: name } = global;
+    const { hive_id: name, tags } = global;
 
     if (!prevMatch) {
       return;
@@ -104,7 +109,7 @@ export const CommunityPage = (props: Props) => {
 
     //  community or filter changed
     if ((filter !== prevParams.filter || name !== prevParams.name) && EntryFilter[filter]) {
-      fetchEntries(match.params.filter, name, false);
+      fetchEntries(filter, tags, false);
     }
 
     // re-fetch subscriptions once active user changed.
@@ -138,25 +143,35 @@ export const CommunityPage = (props: Props) => {
   };
 
   const bottomReached = () => {
-    const { match, entries, fetchEntries } = props;
+    const {
+      match,
+      entries,
+      fetchEntries,
+      global: { tags }
+    } = props;
     const { filter, name } = match.params;
     const groupKey = makeGroupKey(filter, name);
 
     const data = entries[groupKey];
     const { loading, hasMore } = data;
 
-    if (!loading && hasMore && search.length === 0) fetchEntries(filter, name, true);
+    if (!loading && hasMore && search.length === 0) fetchEntries(filter, tags, true);
   };
 
   const reload = async () => {
     queryClient.invalidateQueries([QueryIdentifiers.COMMUNITY, props.match.params.name]);
 
-    const { match, fetchEntries, invalidateEntries } = props;
+    const {
+      match,
+      fetchEntries,
+      invalidateEntries,
+      global: { tags }
+    } = props;
     const { filter, name } = match.params;
 
     if (EntryFilter[filter]) {
       invalidateEntries(makeGroupKey(filter, name));
-      fetchEntries(filter, name, false);
+      fetchEntries(filter, tags, false);
     }
   };
 
@@ -220,32 +235,38 @@ export const CommunityPage = (props: Props) => {
           <CommunityCover {...props} account={account!!} community={community} />
 
           {(() => {
-            if (props.match.params.filter === "subscribers") {
+            const {
+              match: {
+                params: { filter }
+              },
+              entries,
+              global: { tags }
+            } = props;
+
+            if (filter === "subscribers") {
               return <CommunitySubscribers {...props} community={community} />;
             }
 
-            if (props.match.params.filter === "activities") {
+            if (filter === "activities") {
               return <CommunityActivities {...props} community={community} />;
             }
 
-            if (props.match.params.filter === "roles") {
+            if (filter === "roles") {
               return <CommunityRoles {...props} community={community} />;
             }
 
-            const groupKey = makeGroupKey(props.match.params.filter, community.name);
-            const data = props.entries[groupKey];
+            const groupKey = makeGroupKey(filter, tags[0]);
+            const data = entries[groupKey];
 
             if (data !== undefined) {
-              const entryList = data?.entries.filter((entry) =>
-                props.global.tags?.some((tag) => entry.json_metadata.tags?.includes(tag))
-              );
+              const entryList = data?.entries.sort(() => (Math.random() > 0.5 ? 1 : -1));
               const loading = data?.loading;
 
               return (
                 <>
                   {loading && entryList.length === 0 ? <LinearProgress /> : ""}
 
-                  {["hot", "created", "trending"].includes(props.match.params.filter) &&
+                  {["hot", "created", "trending"].includes(filter) &&
                     !loading &&
                     entryList.length > 0 && (
                       <div className="searchProfile">
@@ -256,7 +277,7 @@ export const CommunityPage = (props: Props) => {
                           autoComplete="off"
                           showcopybutton={true}
                           filter={`${community!!.name}`}
-                          username={props.match.params.filter}
+                          username={filter}
                         />
                       </div>
                     )}
