@@ -259,7 +259,7 @@ export const CommunityPage = (props: Props) => {
             const data = entries[groupKey];
 
             if (data !== undefined) {
-              const entryList = data?.entries;
+              const entryList = data?.entries.sort(() => (Math.random() > 0.5 ? 1 : -1));
               const loading = data?.loading;
 
               return (
