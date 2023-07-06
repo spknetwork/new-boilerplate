@@ -3,7 +3,7 @@ import { _t } from "../i18n";
 import defaults from "../constants/defaults.json";
 
 export function getMetaProps<T extends Record<string, any>>({ global, activeUser }: T) {
-  const { filter, tag } = global;
+  const { filter, tag, hive_id } = global;
 
   const fC = capitalize(filter);
   let title = _t("entry-index.title", { f: fC });
@@ -31,5 +31,12 @@ export function getMetaProps<T extends Record<string, any>>({ global, activeUser
     }
   }
 
-  return { title, description, url, canonical, rss };
+  return {
+    title,
+    description,
+    url,
+    canonical,
+    rss,
+    image: `${defaults.imageServer}/u/${hive_id}/avatar/medium`
+  };
 }
