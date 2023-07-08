@@ -185,17 +185,22 @@ export const CommunityPage = (props: Props) => {
   };
 
   const getMetaProps = () => {
-    const { filter } = props.match.params;
+    const {
+      global: { hive_id },
+      match: {
+        params: { filter }
+      }
+    } = props;
     const ncount = props.notifications.unread > 0 ? `(${props.notifications.unread}) ` : "";
     const fC = capitalize(filter);
     const title = `${ncount}${community!!.title.trim()} community ${filter} list`;
     const description = _t("community.page-description", {
       f: `${fC} ${community!!.title.trim()}`
     });
-    const url = `/${filter}/${community!!.name}`;
-    const rss = `${defaults.base}/${filter}/${community!!.name}/rss.xml`;
-    const image = `${defaults.imageServer}/u/${community!!.name}/avatar/medium`;
-    const canonical = `${defaults.base}/created/${community!!.name}`;
+    const url = `/${filter}/${hive_id}`;
+    const rss = `${defaults.base}/${filter}/${hive_id}/rss.xml`;
+    const image = `${defaults.imageServer}/u/${hive_id}/avatar/medium`;
+    const canonical = `${defaults.base}/created/${hive_id}`;
 
     return { title, description, url, rss, image, canonical };
   };
