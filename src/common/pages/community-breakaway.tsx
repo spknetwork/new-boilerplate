@@ -266,10 +266,9 @@ export const CommunityPage = (props: Props) => {
             const data = entries[groupKey];
 
             if (!indexerLoading && data !== undefined) {
-              const entryList = [
-                ...indexerData
-                // ...data?.entries
-              ].sort(() => (Math.random() > 0.5 ? 1 : -1));
+              const entryList = [...indexerData, ...data?.entries].sort(() =>
+                Math.random() > 0.5 ? 1 : -1
+              );
               const loading = data?.loading;
 
               return (
