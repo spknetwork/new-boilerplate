@@ -134,14 +134,8 @@ const Meta: FC<Props> = ({
       )}
 
       <Helmet>
-        <meta
-          property="og:image"
-          content={image ? image : `${defaults.imageServer}/u/${hive_id}/avatar/medium`}
-        />
-        <meta
-          name="twitter:image"
-          content={image ? image : `${defaults.imageServer}/u/${hive_id}/avatar/medium`}
-        />
+        <meta property="og:image" content={`${defaults.imageServer}/u/${hive_id}/avatar/medium`} />
+        <meta name="twitter:image" content={`${defaults.imageServer}/u/${hive_id}/avatar/medium`} />
       </Helmet>
     </>
   );
