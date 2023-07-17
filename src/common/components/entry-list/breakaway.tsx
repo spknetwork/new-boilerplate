@@ -119,29 +119,6 @@ export class EntryListContent extends Component<Props, State> {
             {dataToRender.map((e, i) => {
               const l = [];
 
-              if (i % 4 === 0 && i > 0) {
-                const ix = i / 4 - 1;
-
-                if (promotedEntries[ix]) {
-                  const p = promotedEntries[ix];
-                  let isPostMuted =
-                    (activeUser && activeUser.username && mutedList.includes(p.author)) || false;
-                  if (
-                    !dataToRender.find((x) => x.author === p.author && x.permlink === p.permlink)
-                  ) {
-                    l.push(
-                      <EntryListItem
-                        key={`${p.author}-${p.permlink}`}
-                        {...Object.assign({}, this.props, { entry: p })}
-                        promoted={true}
-                        order={4}
-                        muted={isPostMuted}
-                      />
-                    );
-                  }
-                }
-              }
-
               let isPostMuted =
                 (activeUser && activeUser.username && mutedList.includes(e.author)) || false;
               if (location.pathname.includes("/promoted")) {
