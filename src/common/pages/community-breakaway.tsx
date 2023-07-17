@@ -36,6 +36,8 @@ import { withPersistentScroll } from "../components/with-persistent-scroll";
 import "./community.scss";
 import { QueryIdentifiers, useCommunityCache } from "../core";
 import { useQueryClient } from "@tanstack/react-query";
+import { Entry } from "../store/entries/types";
+import { useTrendingFeed } from "../util/graphql/hooks";
 
 interface MatchParams {
   filter: string;
@@ -55,14 +57,14 @@ export const CommunityPage = (props: Props) => {
   const { data: community } = useCommunityCache(props.global.hive_id);
 
   const [account, setAccount] = useState<Account | undefined>(
-    props.accounts.find(({ name }) => [props.global.hive_id])
+    props.accounts.find(() => [props.global.hive_id])
   );
   const [typing, setTyping] = useState(false);
   const [search, setSearch] = useState(getSearchParam());
   const [searchDataLoading, setSearchDataLoading] = useState(getSearchParam().length > 0);
   const [searchData, setSearchData] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const { indexerLoading, indexerData } = useTrendingFeed(props.global.tags, props.global.hive_id);
   const prevMatch = usePrevious(props.match);
   const prevActiveUser = usePrevious(props.activeUser);
 
@@ -245,7 +247,7 @@ export const CommunityPage = (props: Props) => {
                 params: { filter }
               },
               entries,
-              global: { tags }
+              global: { tags, hive_id }
             } = props;
 
             if (filter === "subscribers") {
@@ -263,8 +265,10 @@ export const CommunityPage = (props: Props) => {
             const groupKey = makeGroupKey(filter, tags[0]);
             const data = entries[groupKey];
 
-            if (data !== undefined) {
-              const entryList = data?.entries.sort(() => (Math.random() > 0.5 ? 1 : -1));
+            if (!indexerLoading && data !== undefined) {
+              const entryList = [...indexerData, ...data?.entries].sort(() =>
+                Math.random() > 0.5 ? 1 : -1
+              );
               const loading = data?.loading;
 
               return (

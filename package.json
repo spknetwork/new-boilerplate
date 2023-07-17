@@ -10,9 +10,12 @@
     "prepare": "husky install",
     "format": "prettier --ignore-unknown --write './src/**/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "precommit": "lint-staged",
-    "start:prod": "NODE_ENV=production node build/server.js"
+    "start:prod": "NODE_ENV=production node build/server.js",
+    "compile": "graphql-codegen",
+    "watch": "graphql-codegen -w"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.17",
     "@ecency/render-helper": "^2.2.24",
     "@ecency/render-helper-amp": "^1.1.0",
     "@firebase/analytics": "^0.8.0",
@@ -33,6 +36,7 @@
     "debounce": "^1.2.1",
     "diff-match-patch": "^1.0.5",
     "express": "^4.17.3",
+    "graphql": "^16.7.1",
     "history": "^4.7.2",
     "hive-uri": "^0.2.3",
     "hivesigner": "^3.2.8",
@@ -89,6 +93,8 @@
     "xss": "^1.0.8"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^4.0.1",
+    "@graphql-codegen/client-preset": "^4.0.1",
     "@loadable/webpack-plugin": "^5.15.2",
     "@types/bs58": "^4.0.1",
     "@types/bytebuffer": "^5.0.41",
