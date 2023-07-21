@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
-import { PrivateKey, cryptoUtils } from "@hiveio/dhive";
+import { cryptoUtils, PrivateKey } from "@hiveio/dhive";
 
 import numeral from "numeral";
 
 import isEqual from "react-fast-compare";
 
-import { Modal, Form, Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
+import { Button, Col, Form, FormControl, InputGroup, Modal, Row } from "react-bootstrap";
 
 import badActors from "@hiveio/hivescript/bad-actors.json";
 
@@ -26,26 +26,26 @@ import { error } from "../feedback";
 import HiveWallet from "../../helper/hive-wallet";
 import amountFormatCheck from "../../helper/amount-format-check";
 import parseAsset from "../../helper/parse-asset";
-import { vestsToHp, hpToVests } from "../../helper/vesting";
+import { vestsToHp } from "../../helper/vesting";
 
 import { getAccount, getAccountFull } from "../../api/hive";
 
 import {
-  transferHiveEngineKc,
-  delegateHiveEngineKc,
-  undelegateHiveEngineKc,
-  stakeHiveEngineKc,
-  unstakeHiveEngineKc,
-  transferHiveEngineHs,
-  formatError,
   delegateHiveEngineHs,
-  undelegateHiveEngineHs,
-  stakeHiveEngineHs,
-  unstakeHiveEngineHs,
-  transferHiveEngineKey,
+  delegateHiveEngineKc,
   delegateHiveEngineKey,
-  undelegateHiveEngineKey,
+  formatError,
+  stakeHiveEngineHs,
+  stakeHiveEngineKc,
   stakeHiveEngineKey,
+  transferHiveEngineHs,
+  transferHiveEngineKc,
+  transferHiveEngineKey,
+  undelegateHiveEngineHs,
+  undelegateHiveEngineKc,
+  undelegateHiveEngineKey,
+  unstakeHiveEngineHs,
+  unstakeHiveEngineKc,
   unstakeHiveEngineKey
 } from "../../api/operations";
 
@@ -90,7 +90,6 @@ interface Props {
   addAccount: (data: Account) => void;
   updateActiveUser: (data?: Account) => void;
   setSigningKey: (key: string) => void;
-  fetchPoints: (username: string, type?: number) => void;
   updateWalletValues: () => void;
   onHide: () => void;
 }
@@ -449,8 +448,7 @@ export class Transfer extends BaseComponent<Props, State> {
   };
 
   finish = () => {
-    const { onHide, mode, asset, account, activeUser, fetchPoints, updateWalletValues } =
-      this.props;
+    const { onHide, account, activeUser, updateWalletValues } = this.props;
     if (account && activeUser && account.name !== activeUser.username) {
       updateWalletValues();
     }
@@ -463,7 +461,7 @@ export class Transfer extends BaseComponent<Props, State> {
   };
 
   render() {
-    const { global, mode, activeUser, transactions, dynamicProps } = this.props;
+    const { mode, activeUser, transactions, dynamicProps } = this.props;
     const {
       step,
       asset,
@@ -710,20 +708,23 @@ export class Transfer extends BaseComponent<Props, State> {
                       <div className="balance-hp-hint">{_t("transfer.available-hp-hint")}</div>
                     )}
                   </div>
-                  {to.length > 0 && Number(amount) > 0 && toData?.__loaded && mode === "delegate" && (
-                    <div className="text-muted mt-1 override-warning">
-                      {_t("transfer.override-warning-1")}
-                      {delegateAccount && (
-                        <>
-                          <br />
-                          {_t("transfer.override-warning-2", {
-                            account: to,
-                            previousAmount: previousAmount
-                          })}
-                        </>
-                      )}
-                    </div>
-                  )}
+                  {to.length > 0 &&
+                    Number(amount) > 0 &&
+                    toData?.__loaded &&
+                    mode === "delegate" && (
+                      <div className="text-muted mt-1 override-warning">
+                        {_t("transfer.override-warning-1")}
+                        {delegateAccount && (
+                          <>
+                            <br />
+                            {_t("transfer.override-warning-2", {
+                              account: to,
+                              previousAmount: previousAmount
+                            })}
+                          </>
+                        )}
+                      </div>
+                    )}
                   {(() => {
                     if (mode === "unstake") {
                       const hive = Math.round((Number(amount) / 13) * 1000) / 1000;
