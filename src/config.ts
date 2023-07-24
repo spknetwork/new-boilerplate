@@ -11,5 +11,6 @@ export default {
     process.env.HIVE_ID || ""
   ],
   availibleAccounts: process.env.ACCOUNTS ? +process.env.ACCOUNTS : 0,
-  baseApiUrl: process.env.API_URL || "https://account-creator.3speak.tv/api"
+  baseApiUrl: process.env.API_URL || "https://account-creator.3speak.tv/api",
+  redisPass: process.env.REDIS_HOST_PASSWORD
 };
