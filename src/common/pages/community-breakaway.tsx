@@ -233,7 +233,10 @@ export const CommunityPage = (props: Props) => {
         <span itemScope={true} itemType="http://schema.org/Organization">
           <meta itemProp="name" content={community.title.trim() || community.name} />
           <span itemProp="logo" itemScope={true} itemType="http://schema.org/ImageObject">
-            <meta itemProp="url" content={getMetaProps().image} />
+            <meta
+              itemProp="url"
+              content={`${defaults.imageServer}/u/${props.global.hive_id}/avatar/medium`}
+            />
           </span>
           <meta itemProp="url" content={`${defaults.base}${getMetaProps().url}`} />
         </span>
@@ -266,9 +269,16 @@ export const CommunityPage = (props: Props) => {
             const data = entries[groupKey];
 
             if (!indexerLoading && data !== undefined) {
-              const entryList = [...indexerData, ...data?.entries].sort(() =>
-                Math.random() > 0.5 ? 1 : -1
-              );
+              const entryList = [...indexerData, ...data?.entries]
+                .sort(() => (Math.random() > 0.5 ? 1 : -1))
+                .sort((a, b) => {
+                  switch (filter) {
+                    case "created":
+                      return +new Date(b.created) - +new Date(a.created);
+                    default:
+                      return 1;
+                  }
+                });
               const loading = data?.loading;
 
               return (

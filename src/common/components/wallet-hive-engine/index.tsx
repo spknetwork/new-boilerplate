@@ -21,21 +21,21 @@ import "./_index.scss";
 import {
   claimRewards,
   getHiveEngineTokenBalances,
+  getMetrics,
   getUnclaimedRewards,
-  TokenStatus,
-  getMetrics
+  TokenStatus
 } from "../../api/hive-engine";
 
 import {
-  informationVariantSvg,
-  plusCircle,
-  transferOutlineSvg,
-  lockOutlineSvg,
-  unlockOutlineSvg,
   delegateOutlineSvg,
-  undelegateOutlineSvg,
+  informationVariantSvg,
+  lockOutlineSvg,
+  plusCircle,
+  priceDownSvg,
   priceUpSvg,
-  priceDownSvg
+  transferOutlineSvg,
+  undelegateOutlineSvg,
+  unlockOutlineSvg
 } from "../../img/svg";
 
 import { formatError } from "../../api/operations";
@@ -53,7 +53,6 @@ interface Props {
   addAccount: (data: Account) => void;
   updateActiveUser: (data?: Account) => void;
   setSigningKey: (key: string) => void;
-  fetchPoints: (username: string, type?: number) => void;
   updateWalletValues: () => void;
 }
 
@@ -704,8 +703,7 @@ export default (p: Props) => {
     addAccount: p.addAccount,
     updateActiveUser: p.updateActiveUser,
     setSigningKey: p.setSigningKey,
-    updateWalletValues: p.updateWalletValues,
-    fetchPoints: p.fetchPoints
+    updateWalletValues: p.updateWalletValues
   };
 
   return <WalletHiveEngine {...props} />;

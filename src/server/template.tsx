@@ -12,6 +12,7 @@ import path from "path";
 import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 import { dehydrate, QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../common/core";
+import defaults from "../common/constants/defaults.json";
 
 export const render = (req: express.Request, state: AppState) => {
   const store = configureStore(state);
@@ -42,6 +43,7 @@ export const render = (req: express.Request, state: AppState) => {
   const scriptTags = extractor.getScriptTags();
   const linkTags = extractor.getLinkTags();
   const styleTags = extractor.getStyleTags();
+  const image = `${defaults.imageServer}/u/${state.global.hive_id}/avatar/medium`;
 
   queryClient.clear();
   return `<!DOCTYPE html>
@@ -50,7 +52,7 @@ export const render = (req: express.Request, state: AppState) => {
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="theme-color" content="#000000"/>
-                <link rel="icon" href="/favicon.png" />
+                <link rel="icon" href="${image}" />
                 <link rel="apple-touch-icon" href="/logo192.png" />
                 <link rel="manifest" href="/manifest.json" />
                 ${headHelmet}

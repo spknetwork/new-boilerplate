@@ -11,6 +11,7 @@ import { AppState } from "../common/store";
 import configureStore from "../common/store/configure";
 import { queryClient } from "../common/core";
 import { QueryClientProvider } from "@tanstack/react-query";
+import defaults from "../common/constants/defaults.json";
 
 export const renderAmp = async (req: express.Request, state: AppState) => {
   const store = configureStore(state);
@@ -35,6 +36,7 @@ export const renderAmp = async (req: express.Request, state: AppState) => {
 
   const helmet = Helmet.renderStatic();
   const headHelmet = helmet.meta.toString() + helmet.title.toString() + helmet.link.toString();
+  const image = `${defaults.imageServer}/u/${state.global.hive_id}/avatar/medium`;
 
   return `<!DOCTYPE html>
             <html lang="en">
@@ -42,7 +44,7 @@ export const renderAmp = async (req: express.Request, state: AppState) => {
                 <meta charset="utf-8" />
                 <meta name="theme-color" content="#000000"/>
                 ${headHelmet}
-                <link rel="icon" href="/favicon.png" />
+                <link rel="icon" href="${image}" />
                 <link rel="apple-touch-icon" href="/logo192.png" />
                 <link rel="manifest" href="/manifest.json" />
             </head>

@@ -29,8 +29,7 @@ const Meta: FC<Props> = ({
   published,
   modified,
   rss,
-  amp,
-  image
+  amp
 }) => {
   const {
     global: { hive_id }

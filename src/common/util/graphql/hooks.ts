@@ -12,7 +12,7 @@ export const useTrendingFeed = (
     }
   });
 
-  if (!loading) {
+  if (data) {
     const {
       trendingFeed: { items }
     } = data;
@@ -30,11 +30,13 @@ export const useTrendingFeed = (
           permlink,
           title,
           community
-        }: any) =>
-          ({
+        }: any) => {
+          const totalReward = stats ? stats.total_hive_reward.toFixed(3) : 0.0;
+
+          return {
             active_votes: [],
             author: author.username,
-            author_payout_value: "0.000 HBD",
+            author_payout_value: totalReward,
             author_reputation: 100,
             beneficiaries: [],
             blacklists: [],
@@ -45,14 +47,14 @@ export const useTrendingFeed = (
             community: community["_id"].split("/")[1],
             total_votes: stats ? stats.num_votes : 0,
             json_metadata,
-            curator_payout_value: "0.000 HBD",
+            curator_payout_value: totalReward,
             depth: 0,
             is_paidout: false,
             max_accepted_payout: "1000000.000 HBD",
             net_rshares: 31735727304640,
-            payout: stats ? stats.total_hive_reward : "0.000 HBD",
+            payout: totalReward,
             payout_at: new Date().toISOString(),
-            pending_payout_value: stats ? stats.total_hive_reward : "0.000 HBD",
+            pending_payout_value: totalReward,
             percent_hbd: 100,
             permlink,
             post_id: Math.floor(Math.random() * 100),
@@ -61,7 +63,8 @@ export const useTrendingFeed = (
             title,
             updated: updated_at,
             url: `/${community._id.split("/")[1]}/@${author.username}/${permlink}`
-          } as Entry)
+          } as Entry;
+        }
       )
     };
   }
