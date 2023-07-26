@@ -12,7 +12,6 @@ export const GET_TRENDING_FEED = gql`
         permlink
         author {
           username
-          profile
         }
         json_metadata {
           image

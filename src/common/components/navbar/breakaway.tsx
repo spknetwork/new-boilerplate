@@ -222,7 +222,12 @@ export default ({ match, history, setStepOne, setStepTwo, step }: Props) => {
               />
             </Link>
           ) : (
-            <img src={logo} className="logo" alt="Logo" onClick={handleIconClick} />
+            <img
+              src={`${defaults.imageServer}/u/${global.hive_id}/avatar/lardge`}
+              className="logo"
+              alt="Logo"
+              onClick={handleIconClick}
+            />
           )}
         </div>
 
