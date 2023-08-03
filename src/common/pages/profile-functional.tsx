@@ -496,7 +496,14 @@ export const Profile = (props: Props) => {
                   });
                 }
                 if (section === "points") {
-                  return WalletEcency({ ...props, account, updateWalletValues: ensureAccount });
+                  return WalletEcency({
+                    ...props,
+                    account,
+                    updateWalletValues: ensureAccount,
+                    fetchPoints: function (username: string, type?: number | undefined): void {
+                      throw new Error("Function not implemented.");
+                    }
+                  } as any);
                 }
                 if (section === "communities") {
                   return ProfileCommunities({ ...props, account });
