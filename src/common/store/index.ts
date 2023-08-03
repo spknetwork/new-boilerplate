@@ -66,7 +66,7 @@ if (typeof window !== "undefined") {
   });
 
   // create a new push function that compares new path and previous path.
-  history.push = (pathname: History.Path, state: History.LocationState = {}) => {
+  (history.push as any) = (pathname: History.Path, state: History.LocationState = {}) => {
     // compare filter & tag resolution of paths
     // this control required because "/" == "/hot" and "/@username" == "/@username/posts"
     const ftCur = filterTagExtract(pathname);
