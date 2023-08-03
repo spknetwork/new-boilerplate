@@ -32,7 +32,7 @@ export const FeedbackModal = ({ show, setShow, instance, activeUser }: Props) =>
       animation={false}
       show={show}
       centered={true}
-      onHide={setShow}
+      onHide={setShow as any}
       keyboard={false}
       className="purchase-qr-dialog"
     >

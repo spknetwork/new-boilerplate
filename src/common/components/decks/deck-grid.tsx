@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useContext, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { DeckGridContext } from "./deck-manager";

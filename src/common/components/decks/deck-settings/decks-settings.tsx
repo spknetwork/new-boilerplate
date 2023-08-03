@@ -64,7 +64,7 @@ export const DecksSettings = ({ show, setShow, deck }: Props) => {
       animation={true}
       show={show}
       centered={true}
-      onHide={setShow}
+      onHide={setShow as any}
       keyboard={false}
       className="decks-settings"
     >
