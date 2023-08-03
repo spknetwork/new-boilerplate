@@ -21,7 +21,7 @@ export const PurchaseQrDialog = ({ show, setShow, activeUser, location, type }: 
       animation={false}
       show={show}
       centered={true}
-      onHide={setShow}
+      onHide={setShow as any}
       keyboard={false}
       className="purchase-qr-dialog"
     >

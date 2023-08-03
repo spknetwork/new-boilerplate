@@ -159,7 +159,11 @@ export const globalInstance: Global = {
   newVersion: null,
   usePrivate: true,
   lastIndexPath: null,
-  hsClientId: "ecency.app"
+  hsClientId: "ecency.app",
+  ctheme: "sky",
+  tags: ["3speak", "spk"],
+  hive_id: "hive-112019",
+  baseApiUrl: "https://account-creator.3speak.tv/api"
 };
 
 export const TrendingTagsInstance: TrendingTags = {
