@@ -30,9 +30,13 @@ import { EntriesCacheManager } from "./core";
 
 // Define lazy pages
 const ProfileContainer = loadable(() => import("./pages/profile-breakaway"));
+const OldProfileContainer = loadable(() => import("./pages/profile-functional"));
+
 const ProfilePage = (props: any) => <ProfileContainer {...props} />;
 
 const CommunityContainer = loadable(() => import("./pages/community-breakaway"));
+const OldCommunityContainer = loadable(() => import("./pages/community-functional"));
+
 const CommunityPage = (props: any) => <CommunityContainer {...props} />;
 
 const DiscoverContainer = loadable(() => import("./pages/discover"));
@@ -45,6 +49,7 @@ const AuthContainer = loadable(() => import("./pages/auth"));
 const AuthPage = (props: any) => <AuthContainer {...props} />;
 
 const SubmitContainer = loadable(() => import("./pages/submit-breakaway"));
+const OldSubmitContainer = loadable(() => import("./pages/submit"));
 const SubmitPage = (props: any) => <SubmitContainer {...props} />;
 
 const OnboardContainer = loadable(() => import("./pages/onboard"));
