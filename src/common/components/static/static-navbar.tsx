@@ -11,7 +11,7 @@ export const StaticNavbar = ({ fullVersionUrl }: Props) => {
           <div className="brand">
             <a href="/">
               <img
-                src={require("../../img/logo-circle.svg")}
+                src={`https://images.ecency.com/u/${process.env.HIVE_ID}/avatar/lardge`}
                 className="logo"
                 style={{ width: "40px", height: "40px" }}
                 alt="Logo"
