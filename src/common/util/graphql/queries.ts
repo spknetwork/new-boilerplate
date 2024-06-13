@@ -58,3 +58,25 @@ export const GET_SOCIAL_FEED = gql`
     }
   }
 `;
+
+export const GET_PROFILE = gql`
+  query profile($id: String) {
+    profile(id: $id) {
+      ... on HiveProfile {
+        id
+        username
+        name
+        about
+        images {
+          avatar
+          cover
+        }
+        json_metadata
+        website
+        location
+        did
+        src
+      }
+    }
+  }
+`;

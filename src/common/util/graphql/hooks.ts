@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { GET_TRENDING_FEED } from "./queries";
+import { GET_PROFILE, GET_TRENDING_FEED } from "./queries";
 import { Entry } from "../../store/entries/types";
 
 export const useTrendingFeed = (
@@ -72,5 +72,20 @@ export const useTrendingFeed = (
   return {
     indexerData: [],
     indexerLoading: true
+  };
+};
+
+export const useProfileQuery = (
+  username: string
+): { indexerLoading: boolean; indexerData: any } => {
+  const { loading, data } = useQuery(GET_PROFILE, {
+    variables: {
+      id: username
+    }
+  });
+
+  return {
+    indexerLoading: loading,
+    indexerData: data
   };
 };
